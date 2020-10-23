@@ -1,0 +1,31 @@
+
+	body{
+		background: #282826;
+		color: white;
+		width: 794px;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+	.QRcard{
+		margin: 35px 30px;
+		box-sizing: border-box;
+		height: 374px;
+		display: flex;
+		flex-direction: row;
+	}
+	.QRcontent{
+		margin: 10px 10px;
+		font-size: 44px;
+		width: 520px;
+		display: flex;
+		flex-direction: column;
+	}
+	.text{
+		display: flex;
+		flex-direction: row;
+	}
+	.QRimg{
+		width: 255px;
+		margin-top:5px ;
+	}

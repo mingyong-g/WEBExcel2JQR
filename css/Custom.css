@@ -1,0 +1,184 @@
+body{
+	cursor: default;
+	background: #282826;
+	color: white;
+}
+#body{
+	width: 1100px;
+	margin:  0 auto;
+}
+.checkboxGroup-text{
+	display: flex;
+	flex-direction: column;
+}
+.checkboxGroup-line{
+	display: flex;
+	flex-direction: column;
+}
+#menu{
+	box-sizing: border-box;
+	background: #48282a;
+	width: 150px;
+}
+.Menutitle{
+	font-size: 22px;
+	padding-top:10px;
+	border-bottom: orange 1px solid;
+}
+ul{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+li{
+	height: 40px;
+	line-height: 40px;
+	cursor: pointer;
+	text-indent: 15px;
+}
+li:hover{
+	background: #808080;
+}
+.active{
+	background: #808080;
+}
+.checkbox{
+	text-indent: 10px;
+	width: 150px;
+	height: 40px;
+	line-height: 40px;
+	cursor: pointer;
+}
+label{
+	cursor: pointer;
+}
+.checkbox:hover{
+	background: #808080;
+}
+.flexview{
+	display: flex;
+	flex-direction: row;
+}
+.row{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	margin: 5px 0;
+	padding: 10px 0 ;
+}
+.rowText{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	padding: 15px;
+}
+img{
+	padding: 10px;
+}
+#CardDemo{
+	width: 480px;
+	margin: 10px;
+	margin-top: 0;
+}
+.demoTitle{
+	text-align: center;
+	font-size: 22px;
+	padding-top: 5px;
+}
+.demoNote{
+	text-align: center;
+	font-size: 16px;
+	padding-bottom: 5px;
+}
+.demoBoder{
+	border: #00FFFF 1px solid;
+}
+.demoRadius{
+	border-radius: 20px;
+}
+.TopLine{
+	border-top: #00FFFF 1px solid;
+}
+.bottomLine{
+	border-bottom: #00FFFF 1px solid;
+}
+.dividLine{
+	border-right: #00FFFF 1px solid; 
+}
+#param div{
+	width: 100%;
+	height: 30px;
+	margin: 15px;
+}
+#param input{
+	height: 25px;
+}
+.footer{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+.goMake{
+	cursor: pointer;
+	font-size: 22px;
+	color: red;
+	margin: 20px;
+}
+.downloadText{
+	cursor: pointer;
+	font-size: 22px;
+	color: #1296db;
+	margin: 20px;
+	margin-left: 0;
+}
+a:hover, .downloadText:hover{
+	color: wheat;
+}
+.download{
+	width: 40px;
+	height: 40px;
+	margin-top: 5px;
+}
+.colBorder{
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width:250px ;
+}
+.colImg{
+	margin: 0 auto;
+	height: 140px;
+	width: 140px;
+}
+.QRHead-iterm{
+	text-align: center;
+}
+h1{
+	margin: 0;
+	margin: 10px;
+	border-bottom: orange 1px solid;
+}
+h2{
+	margin: 0;
+	margin: 0px;
+	color: orange;
+	font-size: 20px;
+	font-weight: 100;
+}
+.right-row{
+	display: flex;
+	flex-direction: row;
+	height: 420px;
+}
+.comment{
+	margin: 10px;
+}
+.comment h2{
+	padding:  10px 0;
+	border-bottom: orange 1px solid;
+}
+.commenttext{
+	margin: 10px;
+	padding: 10px 0 ;
+}

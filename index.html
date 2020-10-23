@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>二维码制作首页</title>
+		<script type="text/javascript" src="js/vue.min.js"></script>
+		<script type="text/javascript" src="js/JSONToExcelConvertor.js"></script>  
+		<link rel="stylesheet" type="text/css" href="css/index.css"/>
+	</head>
+	<body>
+		<div id = "content">
+			<h1>{{test}}</h1>
+			
+			<!-- 标签页start -->
+			<ul class="tabbar">
+				<li v-for="(item , index) in QRLists " :key = "index">
+					<div>{{item.QRName}}</div>
+				</li>
+			</ul>
+			<!-- 标签页 区域end -->
+			
+			<!-- 主体 区域start -->
+			<div id="box">
+				<!-- 效果展示 区域start -->
+				<div id="QRTag">
+					<div class="textNote" style="margin-bottom: 20px;margin-left: 5px;">
+						效果展示：
+					</div>
+					<div class="col" v-show="!isRow">
+						<img src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1750833952,2529388352&fm=58&bpow=380&bpoh=380" >
+						<div class="QRHead" v-for="(value,key,index) in QRLists[tabindex].QRHead">
+							<div class="colText" v-show="index<QRLists[tabindex].QRDemo.length">
+								{{value}} : {{QRLists[tabindex].QRDemo[index]}}
+							</div>
+						</div>
+					</div>
+					<div class="row" v-show="isRow">
+						<div class="rowText">
+							<div class="QRHead" v-for="(value,key,index) in QRLists[tabindex].QRHead">
+								<div v-show="index<QRLists[tabindex].QRDemo.length" class="QRHead-iterm">
+									{{value}} : {{QRLists[tabindex].QRDemo[index]}}
+								</div>
+							</div>
+						</div>
+						<img src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1750833952,2529388352&fm=58&bpow=380&bpoh=380" >
+					</div>
+					<div class="tip">
+						注：标签仅起展示作用，不代表最终品质！
+					</div>
+				</div>
+				<!-- 效果展示 区域end -->
+				
+				<!-- 使用说明 区域start -->
+				<div id="TextArea">
+					<div class="textNote">
+						使用说明：
+					</div>
+					<div class="QRText">
+						{{QRLists[tabindex].QRText}}
+					</div>
+					<div class="QRHead" v-for="(value,key,index) in QRLists[tabindex].QRHead">
+						{{value}} --> {{key}}
+					</div>
+					<div class="footer">
+						<img src="img/下载.svg" class="download" >
+						<div class="downloadText" id="download">
+								表头下载
+						</div>
+						<a class="goMake" :href="QRLists[tabindex].QRLink" target="_blank">前往制作>>>>></a>
+					</div>
+				</div>
+				<!-- 使用说明 区域end -->
+			</div>
+			<!-- 主体 区域end -->
+			
+			<!--页脚自定义标签 区域start -->
+			<div class="custom">
+				<h2>找不到可用的标签样式，<a class="blink" href="Custom.html" target="_blank"><span >点此自定义制作</spanc></a></h2>
+			</div>
+			<!-- 页脚自定义标签 区域end -->
+		</div>
+	</body>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el:"#content",
+			data:{
+				test:"欢迎使用二维码标签制作插件！",
+				tabindex:0,
+				isRow:true,
+				QRLists:[{
+						QRType:"Car",
+						QRName:"车辆二维码",
+						QRLink:"JNCarCode.html",
+						QRHead:{
+							DepName:"部门名称",
+							ZCID:"固定资产",
+							CarID:"车辆编号",
+							CarName:"车辆名称",
+							CarCode:"二维码内容"
+						},
+						QRDemo:['制造一部','400-4001','JN0001','5T叉车'],
+						QRText:"制作加油车辆的二维码标签，显示车辆部门，车辆编号，车辆固定资产和车辆名称。制作二维码时需要用户提供二维码内容。并按照下方的表头上传Excel表格。页面二维码标签生成后用户自行保存为PDF文件。"
+					},{
+						QRType:"HCTong",
+						QRName:"焊材筒二维码",
+						QRLink:"HCTongCode.html",
+						QRHead:{
+							TongNum:"编号",
+							DepName:"部门",
+							Part:"区域",
+							Store:"库房",
+							QrMsg:"二维码内容"
+						},
+						QRDemo:['焊条筒001','制造一部','平直作业区','仓库B'],
+						QRText:"制作焊材筒的二维码标。显示筒编号，部门，区域，库房等信息。制作二维码时需要用户提供二维码内容。并按照下方的表头上传Excel表格。页面二维码标签生成后用户自行保存为PDF文件。"
+					},{
+						QRType:"CarMin",
+						QRName:"车辆迷你二维码",
+						QRLink:"JNCarSmallQRCode.html",
+						QRHead:{
+							CarID:"车辆编号",
+							ZCID:"固定资产",
+							CarCode:"二维码内容"
+						},
+						QRDemo:['JN34001','400-4001'],
+						QRText:"制作加油车辆的二维码标签迷你版，仅显示车辆编号和固定资产编号等简要信息，二维码尺寸较小，便于携带。制作二维码时需要用户提供二维码内容。并按照下方的表头上传Excel表格。页面二维码标签生成后用户自行保存为PDF文件。"
+					},{
+						QRType:"HCUser",
+						QRName:"焊材人员二维码",
+						QRLink:"HCUserCode.html",
+						QRHead:{
+							DepName:"部门",
+							WorkNum:"工号",
+							Name:"姓名",
+							QrMsg:"二维码内容"
+						},
+						QRDemo:["制造一部",'10002001','王水水'],
+						QRText:"制作人员的二维码标签，显示部门，工号，姓名等基本信息。该尺寸默认为卡片大小，适合打印成卡片。制作二维码时需要用户提供二维码内容。并按照下方的表头上传Excel表格。页面二维码标签生成后用户自行保存为PDF文件。"
+					},{
+						QRType:"HCUserMin",
+						QRName:"焊材人员迷你二维码",
+						QRLink:"HCUserCode-min.html",
+						QRHead:{
+							WorkNum:"工号",
+							Name:"姓名",
+							QrMsg:"二维码内容"
+						},
+						QRDemo:['10002001','王水水'],
+						QRText:"简化的人员二维码标签，仅显示姓名工号等用于识别的信息。该标签默认为2cm x 2cm 大小。便于制作粘贴版的二维码。制作二维码时需要用户提供二维码内容。并按照下方的表头上传Excel表格。页面二维码标签生成后用户自行保存为PDF文件。"
+					}]
+			},
+		});
+		var liLists = document.getElementsByTagName('li');
+		var liNUm = liLists.length;
+		var QRTag = document.getElementById("QRTag");
+		var download = document.getElementById("download");
+		var isLiClick = false;
+		for(let i = 0;i<liNUm; i++ ){
+			liLists[0].className = "liclick";
+			(function(i){
+				liLists[i].onclick = function(){
+					for(let j=0; j<liNUm; j++){
+						liLists[j].className = "";
+						console.log(i);
+					}
+					isLiClick = true;
+					vm.tabindex = i;
+					vm.isRow = (i < 2) ? true:false;
+					this.className = "liclick";
+					
+					var fileindex = i;
+					var data = vm.QRLists[fileindex].QRHead;
+					var fileName = vm.QRLists[fileindex].QRName;
+					var downloadData = [{}];
+					downloadData[0] = data;
+					download.onclick = function(){
+							//自定义过滤栏（不需要导出的行）
+							var filter=['id','logins']               
+							//原始导出
+							JSONToExcelConvertor(downloadData,fileName); 
+							console.log(downloadData);
+							//自定义导出
+							//JSONToExcelConvertor(data3,"report",title,filter); 
+					}
+				}
+			})(i)
+		}
+		
+		if(!isLiClick){
+			var data = vm.QRLists[0].QRHead;
+			var fileName = vm.QRLists[0].QRName;
+			var downloadData = [{}];
+			downloadData[0] = data;
+			download.onclick = function(){
+					//自定义过滤栏（不需要导出的行）
+					var filter=['id','logins']               
+					//原始导出
+					JSONToExcelConvertor(downloadData,fileName); 
+					console.log(downloadData);
+					//自定义导出
+					//JSONToExcelConvertor(data3,"report",title,filter); 
+			}
+		}
+	</script>
+</html>

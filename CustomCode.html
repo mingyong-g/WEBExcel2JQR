@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+		<head>
+			<meta charset="utf-8" />
+			<title></title>
+				<!-- <script src="http://oss.sheetjs.com/js-xlsx/xlsx.full.min.js"></script> -->
+				<!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+				<script src="js/xlsx.full.min.js"></script>
+				<script src="js/vue.min.js"></script>
+				<script src="js/qrcode.js" type="text/javascript" charset="utf-8"></script>
+				<link rel="stylesheet" type="text/css" href="css/CustomCode.css"/>
+		</head>
+		<body>
+			<input type="file" id="inputfile" onchange="importExcel(this)" />
+			<div id="qrshow" >
+				<div class="contain" v-if="isRow">
+					<div  v-for="(list,i) in lists" :key="i"   class="rowCard" >
+						<div class="rowBox" :class="{Boder:isBorder , Radius:isRadius}">
+							<div class="title" v-show="isTitle">
+								{{title}}
+							</div>
+							<div :class="{TopLine:isTopLine}"></div>
+							<div class="row">
+								<div class="rowText" :class="{dividLine:isDividLine}" >
+									<div v-for="(value , index ) in cardDemo" :key="index">
+										<div >{{value.tag}}:{{list['keywords'+(index+1)]}}</div>
+									</div>
+								</div>
+								<div class="rowImg">
+									<img :src="imgLists[i]" >
+								</div>
+							</div>
+							<div :class="{TopLine:isBottomLine}"></div>
+							<div class="Note" v-show="isNote">
+								{{note}}
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="colcontain" v-else>
+					<div class="colCard" v-for="(list,i) in lists" :key="i" >
+						<div class="col" :class="{Boder:isBorder , Radius:isRadius}" >
+							<div class="title" v-show="isTitle">
+								{{title}}
+							</div>
+							<div :class="{TopLine:isTopLine}"></div>
+							<div class="colImg">
+								<img :src="imgLists[i]" >
+							</div>
+							<div :class="{TopLine:isDividLine}"></div>
+							<div class="colText" >
+								<div class="tagrow" v-for="(value , index ) in cardDemo" :key="index">
+									<div >{{value.tag}}:</div>
+									<div class="textCenter">{{list['keywords'+(index+1)]}}</div>
+								</div>
+							</div>
+							<div :class="{TopLine:isBottomLine}"></div>
+							<div class="Note" v-show="isNote">
+								{{note}}
+							</div>
+						</div>	
+					</div>
+				</div>
+			</div>
+		</body>
+		<script type="text/javascript">
+			var customVue = new Vue({
+				el:"#qrshow",
+				data:{
+					title:'',
+					note:'',
+					isRow:true,
+					isTitle:false,
+					isNote:false,
+					isTopLine:false,
+					isBottomLine:false,
+					isDividLine:false,
+					isBorder:false,
+					isRadius:false,
+					lists:[],
+					imgLists:[],
+					cardDemo:[]
+				}
+			})
+			customVue.isTitle = window.opener.vm.Options[0].show;
+			customVue.isNote = window.opener.vm.Options[1].show;
+			customVue.isTopLine = window.opener.vm.Options[2].show;
+			customVue.isBottomLine = window.opener.vm.Options[3].show;
+			customVue.isDividLine = window.opener.vm.Options[4].show;
+			customVue.isBorder = window.opener.vm.Options[5].show;
+			customVue.isRadius = window.opener.vm.Options[6].show;
+			customVue.isRow = window.opener.vm.isrow;
+			customVue.title = window.opener.vm.cardTitle;
+			customVue.note = window.opener.vm.cardNote;
+			customVue.cardDemo = window.opener.vm.CardDemo;
+		</script>
+		<script type="text/javascript">
+			var lists = [];
+			var imgLists = [];
+			var wb;//读取完成的数据
+			var aa=[];
+			var text=[];
+			var rABS = false; //是否将文件读取为二进制字符串
+		
+		/* *******************导入excel并转为JSON******************************** */
+		function importExcel(obj) {//导入
+			if(!obj.files) {
+				return;
+			}
+			const IMPORTFILE_MAXSIZE = 1*2048;//这里可以自定义控制导入文件大小
+			var suffix = obj.files[0].name.split(".")[1]
+			if(suffix != 'xls' && suffix !='xlsx'){
+				alert('导入的文件格式不正确!')
+				return
+			}
+			if(obj.files[0].size/1024 > IMPORTFILE_MAXSIZE){
+				alert('导入的表格文件不能大于2M')
+				return
+			}
+			var f = obj.files[0];
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				var data = e.target.result;
+				if(rABS) {
+					wb = XLSX.read(btoa(fixdata(data)), {//手动转化
+						type: 'base64'
+					});
+				} else {
+					wb = XLSX.read(data, {
+						type: 'binary'
+					});
+				}
+				aa=JSON.stringify( XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]) );
+				 var u = eval('('+aa+')');  
+				 lists = JSON.stringify( XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]) );
+				 lists = JSON.parse(lists);
+	/* ********************************生成二维码图片并存在imglists数组中**************** */
+				 imgLists = lists.map(function(list){
+					 return createQrCodeImg(list.QrMsg, {size: parseInt(200)});
+				})
+	/* ********************************创建Vue实列************************************* */
+				customVue.lists = lists;
+				customVue.imgLists = imgLists;
+			 //获取表格中为address的那列存入text中
+			   for(var i=0;i<u.length;i++){
+				text.push(u[i].address);
+			   }
+				var input = document.getElementById("inputfile");
+				input.remove();
+        }
+       if(rABS) {
+            reader.readAsArrayBuffer(f);
+        } else {
+            reader.readAsBinaryString(f);
+        }
+    }
+	</script>
+	<script type="text/javascript">
+		var col = document.getElementsByClassName("col");
+		var height= col[0].style.clientHeight;
+		console.log(heght);
+	</script>
+</html>

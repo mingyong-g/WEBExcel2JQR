@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+		<head>
+			<meta charset="utf-8" />
+			<title></title>
+				<script src="js/xlsx.full.min.js"></script>
+				<script src="js/vue.min.js"></script>
+				<script src="js/qrcode.js" type="text/javascript" charset="utf-8"></script>
+				<link rel="stylesheet" type="text/css" href="css/JNCarSmallQRCode.css"/>
+		</head>
+		<body>
+			<input type="file" id="inputfile" onchange="importExcel(this)" />
+			<div id="qrshow" class="box">
+				<div v-for="(list,i) in lists" :key="i">
+					<div class="content">
+						<div class="QRimg">
+							<img :src="imglists[i]" >
+						</div>
+						<div class="text">
+							{{list.CarID}}|{{list.ZCID}}
+						</div>
+					</div>
+				</div>
+			</div>
+		</body>
+		<script type="text/javascript">
+			var lists = [];
+			var imgLists = [];
+			var wb;//读取完成的数据
+			var aa=[];
+			var text=[];
+			var rABS = false; //是否将文件读取为二进制字符串
+		
+		/* *******************导入excel并转为JSON******************************** */
+		function importExcel(obj) {//导入
+			if(!obj.files) {
+				return;
+			}
+			const IMPORTFILE_MAXSIZE = 1*2048;//这里可以自定义控制导入文件大小
+			var suffix = obj.files[0].name.split(".")[1]
+			if(suffix != 'xls' && suffix !='xlsx'){
+				alert('导入的文件格式不正确!')
+				return
+			}
+			if(obj.files[0].size/1024 > IMPORTFILE_MAXSIZE){
+				alert('导入的表格文件不能大于2M')
+				return
+			}
+			var f = obj.files[0];
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				var data = e.target.result;
+				if(rABS) {
+					wb = XLSX.read(btoa(fixdata(data)), {//手动转化
+						type: 'base64'
+					});
+				} else {
+					wb = XLSX.read(data, {
+						type: 'binary'
+					});
+				}
+				//wb.SheetNames[0]是获取Sheets中第一个Sheet的名字
+				//wb.Sheets[Sheet名]获取第一个Sheet的数据
+				aa=JSON.stringify( XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]) );
+				 var u = eval('('+aa+')');  
+				 lists = JSON.stringify( XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]) );
+				 lists = JSON.parse(lists);
+				 console.log(lists);
+	/* ********************************生成二维码图片并存在imglists数组中**************** */
+				 imgLists = lists.map(function(list){
+					 return createQrCodeImg(list.CarCode, {size: parseInt(115)});
+				})
+	/* ********************************创建Vue实列************************************* */
+				var vm = new Vue({
+					el:"#qrshow",
+					data:{
+						lists :lists,
+						imglists:imgLists
+					}
+				})
+				 console.log(imgLists);
+			// document.getElementById("demo").innerHTML= JSON.stringify( XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]) );
+			 //获取表格中为address的那列存入text中
+			   for(var i=0;i<u.length;i++){
+				text.push(u[i].address);
+			   }
+				var input = document.getElementById("inputfile");
+				input.remove();
+        }
+       if(rABS) {
+            reader.readAsArrayBuffer(f);
+        } else {
+            reader.readAsBinaryString(f);
+        }
+    }
+	</script>
+</html>

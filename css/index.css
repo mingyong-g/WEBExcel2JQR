@@ -1,0 +1,154 @@
+body{
+	cursor: default;
+	background: #282826;
+	color: white;
+}
+#content{
+	margin: 0 auto;
+	width: 950px;
+}
+.tabbar{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-direction: row;
+}
+ul{
+	border-bottom: orange 1px solid;
+}
+li{
+	cursor: pointer;
+	box-sizing: border-box;
+	height: 50px;
+	line-height: 50px;
+	font-size: 24px;
+	font-weight: bold;
+	margin: 10px;
+	padding: 10upx;
+}
+li :hover{
+	color: gray;
+}
+.liclick{
+	color: #00FFFF;
+	border-bottom: #00FFFF 1px solid;
+}
+#box{
+	display: flex;
+	flex-direction: row;
+	height: 450px;
+}
+#QRTag{
+	width:309px ;
+	margin-top: 40px;
+}
+#TextArea{
+	width:600px;
+}
+.col{
+	margin-left: 80px;
+}
+.colText{
+	text-indent: 13px;
+	text-align: left;
+}
+img{
+	margin-left: 10px;
+}
+.QRHead-iterm{
+	margin: 8px 5px;
+}
+#TextArea,#TextArea div{
+	margin: 20px;
+}
+.goMake{
+	font-size: 22px;
+	color: red;
+	margin: 20px;
+}
+.downloadText{
+	cursor: pointer;
+	font-size: 22px;
+	color: #1296db;
+	margin: 20px;
+}
+a:hover, .downloadText:hover{
+	color: wheat;
+}
+.row{
+	display: flex;
+	flex-direction: row;
+}
+.download{
+	width: 40px;
+	height: 40px;
+	margin-top: 15px;
+}
+.footer{
+	display: flex;
+	flex-direction: row;
+}
+.textNote{
+	font-size: 20px;
+	color: orange;
+}
+.tip{
+	font-size: 14px;
+	margin-top: 20px;
+	color: gray;
+}
+.custom{
+	text-align: center;
+}
+.blink{ 
+	
+	font-size: 25px; 
+	color:orange; 
+	margin: 10px;
+	animation: changeshadow 0.5s  ease-in  infinite ;
+	/* 其它浏览器兼容性前缀 */
+	-webkit-animation: changeshadow 1.5s linear infinite;
+	-moz-animation: changeshadow 1s linear infinite;
+	-ms-animation: changeshadow 1s linear infinite;
+	-o-animation: changeshadow 1s linear infinite;
+    }  
+    @keyframes changeshadow {  
+        0%{ text-shadow: 0 0 4px #4cc134}  
+        50%{ text-shadow: 0 0 40px #4cc134}  
+        100%{ text-shadow: 0 0 4px #4cc134}  
+    }
+    /* 添加兼容性前缀 */
+	@-webkit-keyframes changeshadow {
+	  0%{ text-shadow: 0 0 4px #4cc134}  
+          50%{ text-shadow: 0 0 40px #4cc134}  
+          100%{ text-shadow: 0 0 4px #4cc134}  
+	}
+	@-moz-keyframes changeshadow {
+	    0%{ text-shadow: 0 0 4px #4cc134}  
+            50%{ text-shadow: 0 0 40px #4cc134}  
+            100%{ text-shadow: 0 0 4px #4cc134}  
+	}
+	@-ms-keyframes changeshadow {
+	    0%{ text-shadow: 0 0 4px #4cc134}  
+            50%{ text-shadow: 0 0 40px #4cc134}  
+            100%{ text-shadow: 0 0 4px #4cc134}  
+	}
+	@-o-keyframes changeshadow {
+	    0%{ text-shadow: 0 0 4px #4cc134}  
+            50%{ text-shadow: 0 0 40px #4cc134}  
+            100%{ text-shadow: 0 0 4px #4cc134}  
+	}
+.blink :hover{
+	color: wheat;
+}
+h1{
+	margin: 0;
+}
+h2{
+	margin: 0;
+	color: bisque;
+	/* border-top: orange 1px solid ; */
+}
+
+

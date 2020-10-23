@@ -1,0 +1,95 @@
+body{
+	cursor: default;
+	background: #282826;
+	color: white;
+	width: 794px;
+}
+.contain{
+	display: flex;
+	flex-direction: column;
+
+}
+.rowCard{
+	height: 1134px;
+}
+.row{
+	margin: 0 auto;
+	width: 600px;
+	height: 263.5px;
+	display: flex;
+}
+.rowImg{
+	margin-top: 30px;
+}
+.rowText{
+	width: 300px;
+	font-size: 22px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	margin: 10px;
+	margin-left: 30px;
+}
+.colCard{
+	height: 1086px;
+}
+.col{
+	width: 300px;
+	margin-top: 50px;
+	/* height: 540px; */
+	margin-left: 250px;
+	display: flex;
+	flex-direction: column;
+}
+.colImg{
+	margin-left: 50px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	width: 200px;
+	height: 200px;
+}
+.colText{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-size: 18px;
+	margin-left: 30px;
+}
+.tagrow{
+	margin-top: 10px;
+	display: flex;
+	flex-direction: row;
+	text-align: center;
+}
+.textCenter{
+	font-size: 20px;
+	margin-left: 10px;
+	width:170px;
+	border-bottom: gray 1px solid;
+}
+.title{
+	text-align: center;
+	font-size: 22px;
+	padding: 10px;
+}
+.Note{
+	text-align: center;
+	font-size: 16px;
+	padding: 10px;
+}
+.Boder{
+	border: #00FFFF 1px solid;
+}
+.Radius{
+	border-radius: 20px;
+}
+.TopLine{
+	border-bottom: #00FFFF 1px solid;
+}
+.dividLine{
+	border-right: #00FFFF 1px solid; 
+}
+.rowBox{
+	margin: 0 auto;
+	width: 600px;
+	margin-top: 100px;
+}

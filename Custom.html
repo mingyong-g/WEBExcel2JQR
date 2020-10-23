@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>自定义二维码标签</title>
+		<script type="text/javascript" src="js/vue.min.js"></script>
+		<script src="js/JSONToExcelConvertor.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/Custom.css"/>
+	</head>
+	<body>
+		
+		<div id="body">
+			<h1>自定义二维码标签制作</h1>
+			<div class="flexview">
+				<div id="menu">
+					<div class="Menutitle" >
+						版式选择
+					</div>
+					<ul>
+						<li @click="setStyle('row')" :class="{active:isrow}">横向排版</li>
+						<li @click="setStyle('col')"  :class="{active:!isrow}">竖向排版</li>
+					</ul>
+					<div class="Menutitle" >
+						样式设置
+					</div>
+					<div class="checkboxGroup-text">
+						<div class="checkbox">
+							<input name='Title' type='checkbox' :checked="Options[0].show" ><label>显示标题</label>
+						</div>
+						<div class="checkbox">
+							<input name='Note' type='checkbox' :checked="Options[1].show" ><label>显示说明</label>
+						</div>
+					</div>
+					<div class="checkboxGroup-line">
+						<div class="checkbox">
+							<input name='cardTitle' type='checkbox' :checked="Options[2].show" ><label>显示顶端线</label>
+						</div>
+						<div class="checkbox">
+							<input name='cardTitle' type='checkbox' :checked="Options[3].show" ><label>显示底端线</label>
+						</div>
+						<div class="checkbox">
+							<input name='cardTitle' type='checkbox' :checked="Options[4].show" ><label>显示分割线</label>
+						</div>
+						<div class="checkbox">
+							<input name='cardTitle' type='checkbox' :checked="Options[5].show" ><label>显示边框</label>
+						</div>
+						<div class="checkbox">
+							<input name='cardTitle' type='checkbox' :checked="Options[6].show" ><label>圆角边框</label>
+						</div>
+					</div>
+					<div class="Menutitle" >
+						内容设置
+					</div>
+					<ul>
+						<li @click="add">增加内容</li>
+						<li @click="del">删除内容</li>
+					</ul>
+				</div>
+				<div class="right-box">
+					<div class="right-row">
+						<div id="CardDemo">
+							<h2>标签预览:</h2>
+							<div :class="{demoBoder:Options[5].show , demoRadius:Options[6].show}" v-if="isrow">
+								<div class="demoTitle" v-if="Options[0].show">
+									{{cardTitle}}
+								</div>
+								<div class="row" :class="{TopLine:Options[2].show , bottomLine:Options[3].show}">
+									<div class="rowText" :class="{dividLine:Options[4].show}">
+										<div class="QRHead" v-for="(value,index) in CardDemo" :key="index">
+											<div class="QRHead-iterm">
+												{{value.tag}}:{{value.content}}
+											</div>
+										</div>
+									</div>
+									<img src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1750833952,2529388352&fm=58&bpow=380&bpoh=380" >
+								</div>
+								<div class="demoNote" v-if="Options[1].show">
+									二维码标签的说明
+								</div>
+							</div>
+							
+							<div  class="colCard" v-else >
+								<div class="colBorder" :class="{demoBoder:Options[5].show , demoRadius:Options[6].show}">
+									<div class="demoTitle" v-if="Options[0].show">
+										{{cardTitle}}
+									</div>
+									<div :class="{TopLine:Options[2].show}"></div>
+									<img class="colImg"  src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1750833952,2529388352&fm=58&bpow=380&bpoh=380" >
+									<div :class="{TopLine:Options[4].show}"></div>
+									<div class="col" :class="{bottomLine:Options[3].show}">
+										<div class="colText" >
+											<div class="QRHead" v-for="(value,index) in CardDemo" :key="index">
+												<div class="QRHead-iterm">
+													{{value.tag}}:{{value.content}}
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="demoNote" v-if="Options[1].show">
+										二维码标签的说明
+									</div>
+								</div>
+							</div>
+							<div class="footer">
+								<img src="img/下载.svg" class="download" >
+								<div class="downloadText" id="download" @click="download">
+										表头下载
+								</div>
+								<a class="goMake" >前往制作>>>>></a>
+							</div>
+						</div>
+						<div id="param">
+							<h2>参数设置:</h2>
+							<div>
+								<label>标题:</label><input type="text" name="Title" v-model="cardTitle" />
+								<label>说明:</label><input type="text" name="Title" v-model="cardNote" />
+							</div>
+							<div v-for="(value, index) in CardDemo" class="paramInput">
+								<label>标签:</label><input type="text" name="Title" v-model="value.tag" />
+								<label>内容:</label><input type="text" name="Title" v-model="value.content" />
+							</div>
+						</div>
+					</div>
+					<div class="comment">
+						<h2>使用说明:</h2>
+						<div class="commenttext">
+							自定义生成二维码标签时，请过左侧菜单栏定制样式。如果要显示顶端标题或底部说明，请在右侧输入栏键入相应的值。跳转到生成页面将无法修改。增加内容时建议不要超过8条。每条内容需要用户在右侧输入栏键入相应的标签名(必须)，和标签内容(非必须)。键入的标签名将作为二维码标签上的最终标签名。
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		vm = new Vue({
+			el:"#body",
+			data:{
+				isrow:true,
+				cardTitle:'二维码标签的标题',
+				cardNote:"二维码标签的说明",
+				CardDemo:[
+					{
+						tag:'标签1',
+						content:"这里是内容1"
+					},
+					{
+						tag:"标签2",
+						content:"这里是内容2"
+					}
+				],
+				Options:[
+					{
+						action:"Title",
+						show:true,
+						value:''
+					},
+					{
+						action:"Note",
+						show:false,
+						value:""
+					},
+					{
+						action:"TopLine",
+						show:false,
+						value:''
+					},
+					{
+						action:"BottomLine",
+						show:false,
+						value:''
+					},
+					{
+						action:"DividLine",
+						show:false,
+						value:''
+					},
+					{
+						action:"Border",
+						show:false,
+						value:""
+					},
+					{
+						action:"Radius",
+						show:false,
+						value:""
+					}
+				]
+			},
+			methods:{
+				setStyle:function(option){
+					this.isrow = option == 'row' ? true : false; 
+				},
+				add:function(){
+					this.Options[0].show = ! this.Options[0].show; 
+					var length = this.CardDemo.length+1;
+					if(length >8){
+						alert('已经达到标签上限了！');
+						return
+					}
+					var data = {
+						tag:'标签'+length,
+						content:"这里是内容"+length
+					}
+					this.CardDemo.push(data);
+					this.Options[0].show = ! this.Options[0].show;
+				},
+				del:function(){
+					this.Options[0].show = ! this.Options[0].show; 
+					var length = this.CardDemo.length;
+					if(length>0){
+						this.CardDemo.pop();
+					}
+					else{
+						alert("没有内容可供删除了！")
+					}
+					this.Options[0].show = ! this.Options[0].show; 
+				},
+				download:function(){
+					var len = this.CardDemo.length;
+					var tag = 'keywords';
+					var key = '';
+					var obj = {};
+					for(let i = 0 ; i<len; i++){
+						key = tag + (i+1);
+						obj[key] = '删除后填入对应标签内容';
+					}
+					obj['QrMsg'] = '删除后填入对应的二维码内容，用于制作二维码'
+					console.log(obj);
+					var downloadData = [{}];
+					downloadData[0] = obj;
+					JSONToExcelConvertor(downloadData,'自定义二维码标签参数'); 
+					// console.log(this.CardDemo);
+					// console.log(this.cardTitle);
+					// console.log(this.cardNote);
+				}
+			}
+		});
+		var checkboxGroup = document.getElementsByClassName("checkbox");
+		var checkboxNum = checkboxGroup.length;
+		for(let i = 0; i< checkboxNum; i++){
+			(function(i){
+				checkboxGroup[i].onclick = function(){
+					vm.Options[i].show = ! vm.Options[i].show; 
+				}
+			})(i);
+		}
+		
+		var goMake = document.getElementsByClassName("goMake")[0];
+		var url = 'CustomCode.html';
+		goMake.onclick = function(){
+			window.open(url,'_blank');
+		}
+		
+	</script>
+</html>
